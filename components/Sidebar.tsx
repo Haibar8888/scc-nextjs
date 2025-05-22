@@ -35,10 +35,10 @@ const Sidebar = () => {
           Emergency
         </Link>
         <Link
-          href="/dashboard/users"
+          href="/user"
           className={clsx(
             "flex items-center gap-[10px] p-2 rounded hover:text-[#1B84FF]",
-            pathname === "/dashboard/users" && "text-[#1B84FF]"
+            pathname === "/user" && "text-[#1B84FF]"
           )}
         >
           <UserPen size={20} />
