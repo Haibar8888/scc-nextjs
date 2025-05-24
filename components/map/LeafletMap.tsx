@@ -56,6 +56,7 @@ export default function LeafletMap() {
   const emergencies = [
     {
       id: 1,
+      nama: "Hendri",
       type: "Kecelakaan",
       location: "Jl. Diponegoro No. 78, Mataram Barat, NTB",
       time: "09:00 WITA",
@@ -64,6 +65,7 @@ export default function LeafletMap() {
     },
     {
       id: 2,
+      nama: "Budi",
       type: "Sakit",
       location: "Jl. Ahmad Yani No. 99, Malang Selatan, Jawa Timur",
       time: "09:00 WITA",
@@ -90,6 +92,7 @@ export default function LeafletMap() {
             position={e.latlng}
             popupContent={
               <div>
+                <b>Nama Pelapor:</b> {e.nama} <br />
                 <b>Emergency:</b> {e.type} <br />
                 <b>Jam:</b> {e.time}
               </div>
