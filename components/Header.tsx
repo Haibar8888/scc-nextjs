@@ -16,7 +16,7 @@ const Header = () => {
   const title = getTitle(pathname);
 
   return (
-    <div className="bg-[#FFFFFF] mb-[20px] text-[#1E1E1E] px-[40px] py-[21px] w-full h-[80px] flex flex-row justify-between items-center border-b border-gray-100">
+    <div className="bg-[#FFFFFF] text-[#1E1E1E] px-[40px] py-[21px] w-full h-[80px] flex flex-row justify-between items-center border-b border-gray-100">
       <h1>{title}</h1>
       <div className="flex gap-[14px] items-center">
         <Image src="/assets/messages.png" alt="" width={24} height={24} />

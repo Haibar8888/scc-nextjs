@@ -11,7 +11,7 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 h-screen bg-[#FFFFFF] text-[#252F4A] p-8 border-r border-gray-100">
+    <aside className="w-72 h-screen bg-[#FFFFFF] text-[#252F4A] p-8 border-r border-gray-100">
       <Image src="/assets/logo.png" alt="" width={135} height={22} />
       <nav className="flex flex-col space-y-2 mt-[20px]">
         <Link
