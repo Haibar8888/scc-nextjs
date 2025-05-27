@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
@@ -7,6 +6,11 @@ export function middleware(request: NextRequest) {
   // Jika belum login, redirect langsung ke /login
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // Jika sudah login dan mencoba mengakses halaman login, redirect ke halaman beranda
+  if (request.nextUrl.pathname === "/login") {
+    return NextResponse.redirect(new URL("/", request.url)); // Ganti "/" dengan halaman yang sesuai
   }
 
   // Kalau sudah login, lanjut akses halaman
