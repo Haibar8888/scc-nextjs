@@ -14,6 +14,8 @@
     "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cookies-next": "^5.1.0",
+    "jose": "^6.0.11",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
@@ -21,7 +23,8 @@
     "react-dom": "^19.0.0-rc.1",
     "react-leaflet": "^5.0.0-rc.2",
     "scc-app": "file:",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
