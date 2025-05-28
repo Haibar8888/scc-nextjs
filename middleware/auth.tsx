@@ -2,24 +2,25 @@ import { NextResponse, NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
+  const { pathname } = request.nextUrl;
 
-  // Jika belum login, redirect langsung ke /login
-  if (!token) {
+  // Jika belum login dan bukan di /login, redirect ke login
+  if (!token && pathname !== "/login") {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // Jika sudah login dan mencoba mengakses halaman login, redirect ke halaman beranda
-  if (request.nextUrl.pathname === "/login") {
-    return NextResponse.redirect(new URL("/", request.url)); // Ganti "/" dengan halaman yang sesuai
+  // Jika sudah login dan sedang di /login, redirect ke dashboard
+  if (token && pathname === "/login") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Kalau sudah login, lanjut akses halaman
   return NextResponse.next();
 }
 
-// Semua halaman ini akan dicek middleware
+// Jalankan middleware di halaman-halaman ini
 export const config = {
   matcher: [
+    "/login", // Perlu ditambahkan agar bisa dicek ketika user buka halaman login
     "/dashboard/:path*",
     "/user",
     "/user/:path*",

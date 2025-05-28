@@ -1,127 +1,33 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/zustand/store/auth";
 import { DataTable } from "./data-table";
 import { Payment, columns } from "./columns";
 
 async function getData(): Promise<Payment[]> {
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "galuh.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "success",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 200,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-  ];
+  return Array.from({ length: 20 }, (_, i) => ({
+    id: `id-${i + 1}`,
+    amount: 100,
+    status: "pending",
+    email: `user${i + 1}@example.com`,
+  }));
 }
 
-export default async function DashboardPage() {
-  const data = await getData();
+export default function DashboardPage() {
+  const router = useRouter();
+  const user = useAuthStore((state) => state.user);
+  const [data, setData] = useState<Payment[]>([]);
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    } else {
+      // Only fetch data if user exists
+      getData().then(setData);
+    }
+  }, [user, router]);
 
   return (
     <div className="px-[40px] text-black">
