@@ -4,30 +4,50 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/zustand/store/auth";
 import { DataTable } from "./data-table";
-import { Payment, columns } from "./columns";
-
-async function getData(): Promise<Payment[]> {
-  return Array.from({ length: 20 }, (_, i) => ({
-    id: `id-${i + 1}`,
-    amount: 100,
-    status: "pending",
-    email: `user${i + 1}@example.com`,
-  }));
-}
+import { User, columns } from "./columns";
 
 export default function DashboardPage() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
-  const [data, setData] = useState<Payment[]>([]);
+  const token = useAuthStore((state) => state.user?.token);
+  const [data, setData] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) {
       router.push("/login");
     } else {
-      // Only fetch data if user exists
-      getData().then(setData);
+      const fetchData = async () => {
+        try {
+          const res = await fetch("http://localhost:8080/api/v1/users", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!res.ok) throw new Error("Failed to fetch");
+
+          const json = await res.json();
+          const users: User[] = (json.data || []).map((item: any) => ({
+            id: item.ID.toString(),
+            name: item.Name,
+            email: item.Email,
+          }));
+
+          setData(users);
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
     }
-  }, [user, router]);
+  }, [user, token, router]);
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className="px-[40px] text-black">

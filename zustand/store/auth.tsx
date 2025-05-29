@@ -28,12 +28,12 @@ export const useAuthStore = create<AuthState>()(
 
         if (!res.ok) return false;
         const data = await res.json();
-
+        console.log(data.data.token,'token setelah login')
         // Simpan token di cookie (untuk middleware)
-        setCookie("token", data.token);
+        setCookie("token", data.data.token);
 
         // Simpan user di client-side state
-        set({ user: { email, token: data.token } });
+        set({ user: { email, token: data.data.token } });
         return true;
       },
       logout: () => {
