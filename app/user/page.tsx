@@ -10,10 +10,18 @@ export default function DashboardPage() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const token = useAuthStore((state) => state.user?.token);
+
   const [data, setData] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
     if (!user) {
       router.push("/login");
     } else {
@@ -31,7 +39,10 @@ export default function DashboardPage() {
           const json = await res.json();
           const users: User[] = (json.data || []).map((item: any) => ({
             id: item.ID.toString(),
-            name: item.Name,
+            name:
+              item.Email === user.email
+                ? `${item.Name} (Saya)` // <== Menambahkan label “Saya”
+                : item.Name,
             email: item.Email,
           }));
 
@@ -45,9 +56,9 @@ export default function DashboardPage() {
 
       fetchData();
     }
-  }, [user, token, router]);
+  }, [user, token, router, isHydrated]);
 
-  if (loading) return <p>Loading...</p>;
+  if (!isHydrated || loading) return <p>Loading...</p>;
 
   return (
     <div className="px-[40px] text-black">
